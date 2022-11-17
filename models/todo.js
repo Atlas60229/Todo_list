@@ -6,8 +6,9 @@ const toDoSchema = new Schema({
         type: String,
         require: true
     },
-    done:{
-        type: Boolean
+    isDone:{
+        type: Boolean,
+        default: false
     }
 })
 

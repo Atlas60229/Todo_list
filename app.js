@@ -9,6 +9,8 @@ const bodyParser = require('body-parser')
 
 // use
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
+
 
 // 資料庫設定
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
@@ -42,10 +44,12 @@ app.get('/',(req,res)=>{
         
 })
 
+//新增
 app.get('/todos/new', (req, res) => {
     return res.render('new')
   })
 
+//show
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
@@ -54,6 +58,7 @@ app.get('/todos/:id', (req, res) => {
     .catch(error => console.log(error))
 })  
 
+//create
 app.post('/todos', (req, res) => {
   const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
   return Todo.create({ name })     // 存入資料庫
@@ -61,6 +66,7 @@ app.post('/todos', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//編輯
 app.get('/todos/:id/edit', (req, res) => {
     const id = req.params.id
     return Todo.findById(id)
@@ -71,17 +77,18 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.post('/todos/:id/edit', (req, res) => {
     const id = req.params.id
-    const name = req.body.name
+    const { name, isDone }= req.body
     return Todo.findById(id)
       .then(todo => {
         todo.name = name
+        todo.isDone = isDone === "on"
         return todo.save()
       })
       .then(()=> res.redirect(`/todos/${id}`))
       .catch(error => console.log(error))
   })
 
-
+//delete
   app.post('/todos/:id/delete', (req, res) => {
     const id = req.params.id
     return Todo.findById(id)
