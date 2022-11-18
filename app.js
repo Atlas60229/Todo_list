@@ -6,11 +6,15 @@ const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const Todo = require('./models/todo') 
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+const routes = require('./routes')
+
 
 // use
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
-
+app.use(methodOverride('_method'))
+app.use(routes)
 
 // 資料庫設定
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
@@ -33,70 +37,7 @@ app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 //設定路由
-app.get('/',(req,res)=>{
-
-    //取得資料庫資料
-    Todo.find()
-        .lean()
-        .sort({_id: 'asc'}) //反序：desc
-        .then( todos => res.render('index', {todos}))
-        .catch(error => console.error(error))
-    
-        
-})
-
-//新增
-app.get('/todos/new', (req, res) => {
-    return res.render('new')
-  })
-
-//show
-app.get('/todos/:id', (req, res) => {
-  const id = req.params.id
-  return Todo.findById(id)
-    .lean()
-    .then((todo) => res.render('detail', { todo }))
-    .catch(error => console.log(error))
-})  
-
-//create
-app.post('/todos', (req, res) => {
-  const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
-  return Todo.create({ name })     // 存入資料庫
-    .then(() => res.redirect('/')) // 新增完成後導回首頁
-    .catch(error => console.log(error))
-})
-
-//編輯
-app.get('/todos/:id/edit', (req, res) => {
-    const id = req.params.id
-    return Todo.findById(id)
-      .lean()
-      .then((todo) => res.render('edit', { todo }))
-      .catch(error => console.log(error))
-  })
-
-app.post('/todos/:id/edit', (req, res) => {
-    const id = req.params.id
-    const { name, isDone }= req.body
-    return Todo.findById(id)
-      .then(todo => {
-        todo.name = name
-        todo.isDone = isDone === "on"
-        return todo.save()
-      })
-      .then(()=> res.redirect(`/todos/${id}`))
-      .catch(error => console.log(error))
-  })
-
-//delete
-  app.post('/todos/:id/delete', (req, res) => {
-    const id = req.params.id
-    return Todo.findById(id)
-      .then(todo => todo.remove())
-      .then(() => res.redirect('/'))
-      .catch(error => console.log(error))
-  })
+// 移動到routes資料夾中
 
 //啟動server
 app.listen(port,()=>{
