@@ -3,11 +3,12 @@ const express = require('express')
 const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
-const mongoose = require('mongoose')
-const Todo = require('./models/todo') 
+
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
+
+require('./config/mongoose')  //執行app.js時會一併執行mongoose.js
 
 
 // use
@@ -16,21 +17,7 @@ app.use(express.static('public'))
 app.use(methodOverride('_method'))
 app.use(routes)
 
-// 資料庫設定
-// 加入這段 code, 僅在非正式環境時, 使用 dotenv
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-  }
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到 mongoDB
-const dataBase = mongoose.connection
 
-
-dataBase.on('error',()=>{
-    console.log("mongoDB error")
-})
-dataBase.once('open',()=>{
-    console.log('MongoDB connected!')
-})
 
 //設定template engine:
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
