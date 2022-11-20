@@ -1,7 +1,7 @@
 // require
 const express = require('express')
 const app = express()
-const port = 3000
+const PORT = process.env.PORT || 3000 // PORT會由heroku自動提供到環境
 const exphbs = require('express-handlebars')
 
 const bodyParser = require('body-parser')
@@ -27,6 +27,6 @@ app.set('view engine', 'handlebars');
 // 移動到routes資料夾中
 
 //啟動server
-app.listen(port,()=>{
-    console.log('success initiate Server localhost:3000')
+app.listen(PORT,()=>{
+    console.log(`success initiate Server localhost:${PORT}`)
 })
