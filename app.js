@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3000 // PORT會由heroku自動提供到環境
+console.log(PORT)
 const exphbs = require('express-handlebars')
 
 const bodyParser = require('body-parser')
