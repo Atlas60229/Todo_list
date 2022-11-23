@@ -2,13 +2,13 @@
 Node.js + express框架下的試作品
 
 ## 內容:
-* 可用類別或店名搜尋
-* 點擊店家可看到電話、地址、簡介
+
 
 ## 執行環境
 Node.js: v18.12.0 <br>
 express: v4.18.2 <br>
 express-handlebars: v6.0.6 <br>
+method-override: v3.0.0
 
 ## 安裝:
 1. 打開terminal並複製此專案 <br>
@@ -22,6 +22,7 @@ express-handlebars: v6.0.6 <br>
 
 4. 安裝 nodemon 套件 <br>
 `npm install -g nodemon`
+ 
 
 5. 啟動伺服器，執行 app.js 檔案<br>
 `nodemon app.js`
