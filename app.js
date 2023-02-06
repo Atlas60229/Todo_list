@@ -6,7 +6,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
-
+require('./config/mongoose')  //執行app.js時會一併執行mongoose.js
 
 // use
 app.use(bodyParser.urlencoded({ extended: true }))

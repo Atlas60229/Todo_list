@@ -2,7 +2,7 @@
 Node.js + express框架下的試作品
 
 ## 內容:
-
+備忘錄
 
 ## 執行環境
 Node.js: v18.12.0 <br>
