@@ -6,9 +6,15 @@ const toDoSchema = new Schema({
         type: String,
         require: true
     },
-    isDone:{
+    isDone: {
         type: Boolean,
         default: false
+    },
+    userID: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        index: true,
+        require: true
     }
 })
 

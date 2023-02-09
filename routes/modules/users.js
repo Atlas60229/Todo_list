@@ -9,46 +9,61 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
     const { name, email, password, confirmPassword } = req.body
-    User.findOne({ email })
-        .then(user => {
-            if (user) {
-                console.log("E-mail is already used.")
-                res.render("register", {
-                    name,
-                    email,
-                    password,
-                    confirmPassword
-                })
-            } else {
-                return User.create({
-                    name, email, password
-                })
-                    .then(() => res.redirect('/'))
-                    .catch(err => console.log(err))
-
-            }
+    const errors = []
+    if (!name || !email || !password || !confirmPassword) {
+      errors.push({ message: '所有欄位都是必填。' })
+    }
+    if (password !== confirmPassword) {
+      errors.push({ message: '密碼與確認密碼不相符！' })
+    }
+    if (errors.length) {
+      return res.render('register', {
+        errors,
+        name,
+        email,
+        password,
+        confirmPassword
+      })
+    }
+    User.findOne({ email }).then(user => {
+      if (user) {
+        errors.push({ message: '這個 Email 已經註冊過了。' })
+        return res.render('register', {
+          errors,
+          name,
+          email,
+          password,
+          confirmPassword
         })
-
-})
+      }
+      return User.create({
+        name,
+        email,
+        password
+      })
+        .then(() => res.redirect('/'))
+        .catch(err => console.log(err))
+    })
+  })
 
 
 router.get('/login', (req, res) => {
     res.render('login')
 })
 
-router.post('/login', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {  // 執行passport認證
     successRedirect: '/',
     failureRedirect: '/users/login'
 }))
 
 router.get('/logout', (req, res) => {
-    req.logout( err => {
-        if (err){
+    req.logout(err => {
+        if (err) {
             return next(err)
         }
+        req.flash('success_msg', "已成功登出")
         res.redirect('/users/login')
     })
-    
 })
 
 module.exports = router

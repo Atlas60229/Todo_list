@@ -6,7 +6,7 @@ module.exports = app => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, done) => {  
         User.findOne({ email })
             .then(user => {
                 if (!user) {
@@ -15,7 +15,7 @@ module.exports = app => {
                 if (user.password !== password) {           //  可用其他方式驗證密碼  
                     return done(null, false, { message: "Password or Email incorrect" })
                 }
-                return done(null, user)
+                return done(null, user)   //  伺服器端session會存取使用者資料
             })
 
             .catch(err => done(err, false))

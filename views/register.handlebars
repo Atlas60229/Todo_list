@@ -2,6 +2,8 @@
   <div class="col-md-6 m-auto">
     <div class="card card-body">
       <h1 class="text-center mt-3">Register </h1>
+      
+      {{> message }}
       <form action="/users/register" method="post">
         <div class="mb-3">
           <label for="name">Name:</label>
@@ -49,7 +51,7 @@
             class="form-control"
             placeholder="Confirm password"
             value="{{confirmPassword}}"
-            required
+
           />
         </div>
         <button type="submit" class="btn btn-primary btn-block">

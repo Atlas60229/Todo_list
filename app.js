@@ -7,8 +7,9 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
-const usePassport = require('./config/passport')
+const usePassport = require('./config/passport')   //  在config/passport中設定passport使用細節
 require('./config/mongoose')  //執行app.js時會一併執行mongoose.js
+const flash = require('connect-flash')
 
 // use
 app.use(session({               //  需在較前端載入
@@ -19,11 +20,17 @@ app.use(session({               //  需在較前端載入
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
-usePassport(app)
+app.use(flash())
 
-app.use((req,res,next)=>{       //  擺在use(routes)之前，以確定每次發出request給路由時均會通過此函式，看是否有認證過並找到user，若無則res.locals.isAuthenticated及res.locals.user均為undefined
+usePassport(app)  //  app 使用passport
+
+app.use((req, res, next) => {       //  擺在use(routes)之前，以確定每次發出request給路由時均會通過此函式，看是否有認證過並找到user，若無則res.locals.isAuthenticated及res.locals.user均為undefined
     res.locals.isAuthenticated = req.isAuthenticated()
     res.locals.user = req.user
+    res.locals.success_msg = req.flash("success_msg")
+    res.locals.warning_msg = req.flash("warning_msg")
+    // console.log(res.locals)
+
     next()
 })
 app.use(routes)
