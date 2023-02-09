@@ -7,6 +7,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 require('./config/mongoose')  //執行app.js時會一併執行mongoose.js
 
 // use
@@ -18,6 +19,7 @@ app.use(session({               //  需在較前端載入
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
+usePassport(app)
 app.use(routes)
 
 

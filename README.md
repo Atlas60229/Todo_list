@@ -8,7 +8,10 @@ Node.js + express框架下的試作品
 Node.js: v18.12.0 <br>
 express: v4.18.2 <br>
 express-handlebars: v6.0.6 <br>
-method-override: v3.0.0
+express-session: v1.17.3<br>
+method-override: v3.0.0 <br>
+passport: v0.6.0<br>
+passport-local: v1.0.0<br>
 
 ## 安裝:
 1. 打開terminal並複製此專案 <br>
