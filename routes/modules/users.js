@@ -38,12 +38,12 @@ router.post('/register', (req, res) => {
             })
         }
         return bcrypt
-            .genSalt(10)
-            .then(salt => bcrypt.hash(password,salt))
-            .then(hash => User.create({
+            .genSalt(10)  //  得到 salt 送入下一個函式
+            .then(salt => bcrypt.hash(password,salt))  //  用得到的salt 及原本的密碼產生hash值
+            .then(hash => User.create({  
             name,
             email,
-            password: hash
+            password: hash  //  使用得到的hash值做為密碼創造帳號
         }))
             .then(() => res.redirect('/'))
             .catch(err => console.log(err))
