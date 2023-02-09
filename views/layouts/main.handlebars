@@ -25,8 +25,19 @@
         class="navbar navbar-dark justify-content-between"
         style="padding: 8px 16px; background-color: #e95420;"
       >
-        <a class="navbar-brand" href="/">Todo List</a>
-        <a class="btn btn-outline-light" href="/todos/new">Create</a>
+        <a class="navbar-brand" href="/">
+        {{#if isAuthenticated}} {{user.name}} {{/if}}
+        Todo List</a>
+            <!-- if syntax: {{#if 條件}} 內容 {{/if}} -->
+        {{#if isAuthenticated}}
+        <div>
+          <a href="/todos/new" class='btn btn-outline-light'>Create</a>
+          <a href="/users/logout" class='btn btn-outline-light'>Logout</a>
+        </div>
+
+        {{else}}
+        <a href="/users/login" class='btn btn-outline-light'>Login</a>
+        {{/if}}
       </nav>
 
     </header>

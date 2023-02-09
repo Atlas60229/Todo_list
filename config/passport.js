@@ -12,7 +12,7 @@ module.exports = app => {
                 if (!user) {
                     return done(null, false, { message: "The e-email is not exist." })
                 }
-                if (user.password !== password) {
+                if (user.password !== password) {           //  可用其他方式驗證密碼  
                     return done(null, false, { message: "Password or Email incorrect" })
                 }
                 return done(null, user)
@@ -22,7 +22,6 @@ module.exports = app => {
     }))
 
     passport.serializeUser((user, done) => {
-        console.log(user)
         done(null, user.id)
     })
     passport.deserializeUser((id, done) => {

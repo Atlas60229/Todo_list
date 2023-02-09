@@ -20,6 +20,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 usePassport(app)
+
+app.use((req,res,next)=>{       //  擺在use(routes)之前，以確定每次發出request給路由時均會通過此函式，看是否有認證過並找到user，若無則res.locals.isAuthenticated及res.locals.user均為undefined
+    res.locals.isAuthenticated = req.isAuthenticated()
+    res.locals.user = req.user
+    next()
+})
 app.use(routes)
 
 
