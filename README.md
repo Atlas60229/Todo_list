@@ -5,6 +5,7 @@ Node.js + express框架下的試作品
 備忘錄
 
 ## 執行環境
+bcryptjs: v2.4.3<br>
 Node.js: v18.12.0 <br>
 express: v4.18.2 <br>
 express-handlebars: v6.0.6 <br>
